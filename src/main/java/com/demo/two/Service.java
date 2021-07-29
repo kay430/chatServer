@@ -222,7 +222,8 @@ public class Service extends Thread{
 	                     //String ic = new String (); 
 	                      
 	                     tem = service.insertRoom(msgs[1],nickName);
-	                      
+	                     System.out.println("d");//
+		    			     
 	    			  
 	    			  
 	                     //String ic = new String (); 
