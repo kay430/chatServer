@@ -79,17 +79,20 @@ public class Service extends Thread{
 			     
 	             String msgs[]=msg.split("\\|");
 	             String protocol = msgs[0];
+	             String getnick = msgs[1].trim();
+	             System.out.println("로그인한 사람 nick: " + getnick);
 	             
  			     switch(protocol){
 
 			      case "100": //대기실 접속
-			    	  
+			    	  this.nickName = getnick;
 			    	  
 			    	  allV.add(this);//전체사용자에 등록
 			    	  
 			    	  waitV.add(this);//대기실사용자에 등록
 			    	  
-			    	  
+			    	// System.out.println(waitV.indexOf(this));
+			    	// System.out.println("100 대기실 입장:" + s.getInetAddress().getHostAddress());
 			    	  
 			    	  //nick = service.selectNickName(nickName);
 			    	  
@@ -107,7 +110,7 @@ public class Service extends Thread{
 					        	System.out.println("대화방+대기실 인원: " + k + "번째// " + allV.get(k).nickName);
 					    	}
 					    	for(int k = 0; k < waitV.size(); k++) {
-					    		System.out.println("대기실 인원: " + k + "번째// "+ waitV.get(k).nickName);
+					    		System.out.println("대기실 인원: " + k + "번째// "+ allV.get(k).nickName);
 					    	}
 					        
 				            break;
@@ -115,37 +118,44 @@ public class Service extends Thread{
 				            
 			      case "150": //대화명 입력
 			    	  
+//			    	  for(int i = 0; i < allV.size(); i++) {
+//			    		  String tem = allV.get(i).nickName;
+//			    		  System.out.println("유저 리스트????: " + tem);
+//			    	  }
+			    	  
+			    	  int ncheck = 0;
 			    	  
 			    	  String temName ="";
 			    	  
-			    	  
-			    	  if(allV.size() > 0) {
+ if(allV.size() > 0) {
 			    		  
 				    	  for(int i = 0; i < allV.size(); i++) {
-				    		  temName = allV.get(i).nickName;				    		  
-//				    		  System.out.println("유저 리스트: " + temName);
-//				    		  System.out.println("입력된 유저 이름: " + msgs[1].trim());
+				    		  temName = allV.get(i).nickName;
+				    		  System.out.println("유저 리스트: " + temName);
+				    		  System.out.println("입력된 유저 이름: " + msgs[1].trim());
 				    		  
 				    		  if(temName == null) {
 				    			  temName = "";
-//				    			  System.out.println("[if] temName: " + temName);
 				    		  }
 				    		  
 				    		  if(temName.equals(msgs[1].trim())) {
-				    			  System.out.println("닉네임 중복!!!!!");
-				    			  
-				    			  messageTo("130| 중복된 닉네임");
-				    			  break;
-				    			  
-				    		  } else {
-				    			  System.out.println("닉네임 중복 아님!!!!");
-				    			  
-				    			  messageTo("140| 닉네임 등록");
-				    			  nickName = msgs[1].trim(); //사용자가 입력한 값
+				    			  ncheck = 1;
 				    			  
 				    			  break;
-				    		  }
+				    			  
+				    		  } 
 			    	    	
+				    	  }
+				    	  
+				    	  if(ncheck == 1) {
+				    		  System.out.println("닉네임 중복!!!!!");
+			    			  
+			    			  messageTo("130| 중복된 닉네임");
+			    			  
+				    	  } else {
+				    		  System.out.println("닉네임 중복 아님!!!!");
+				    		  messageTo("140| 닉네임 등록");
+			    			  nickName = msgs[1].trim(); //사용자가 입력한 값
 				    	  }
 				    	  
 				    	  

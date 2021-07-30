@@ -15,6 +15,13 @@ public interface MainService {
 	//아이디 중복체크
 	int checkId(String id);
 	
+	//닉네임 중복체크
+		int checkNick(String nick);
+	
+	//닉네임 가져오기
+	String getNick(String id);
+	
+	
 	//채팅내용 저장
     int insertChat(String ic, String nickName);
    

@@ -42,6 +42,16 @@ public class MainServiceImpl implements MainService {
 		return dao.checkId(id);
 	}
 	
+	@Override
+	public int checkNick(String nick) {
+	return dao.checkNick(nick);
+	}
+
+	@Override
+	public String getNick(String id) {
+	return dao.getNick(id);
+	}
+
 	
 	
 	//채팅내용 insert

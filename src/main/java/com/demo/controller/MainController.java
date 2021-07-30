@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.demo.service.MainService;
 import com.demo.two.Server;
+//import com.fasterxml.jackson.databind.util.JSONPObject;
 
 @RestController
 public class MainController {
@@ -46,14 +48,22 @@ public class MainController {
 		
 		boolean isExist = service.selectMem(hm);
 		
+		JSONObject rjson = new JSONObject();
+		
 		if(isExist == true) {
-			return "login success";
-			
+			String usernick = service.getNick(id);
+//			data.put("result", "login success");
+//			data.put("nick", usernick);
+			rjson.put("result", "success");
+			rjson.put("nick", usernick);
+				
 		} else {
-			return "login fail";
-			
+			rjson.put("result", "login fail");
+			//data.put("result", "login fail");			
 		}
-	
+		
+		return rjson.toString();
+		
 	}
 	
 	
@@ -68,16 +78,20 @@ public class MainController {
 		
 		String id = (String) request.getParameter("id");
 		String pw = (String) request.getParameter("pw");
+		String nick = (String) request.getParameter("nick");
 		log.info("[join] 안드로이드에서 받아온 id: " + id);
 		log.info("[join] 안드로이드에서 받아온 pw: " + pw);
+		log.info("[join] 안드로이드에서 받아온 nick: " + nick);
 		
 		HashMap<Object, String> hm = new HashMap<>();
 		hm.put("id", id);
 		hm.put("pw", pw);
+		hm.put("nick", nick);
 		
 		int checkId = service.checkId(id);
+		int checkNick = service.checkNick(nick);
 		
-		if(checkId > 0) {
+		if(checkId > 0 || checkNick > 0) {
 			return "join fail";
 		
 		} else {
